@@ -1,0 +1,4 @@
+connection_strings:
+  postgres: 'postgres://appuser:p1n6P0nG$@localhost/anonbot?sslmode=disable'
+app_settings:
+  port: 8000
