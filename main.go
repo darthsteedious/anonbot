@@ -14,10 +14,11 @@ import (
 	"net/http"
 )
 
-func registerHandlers(db *sql.DB, router routing.Router, parent context.Context) {
+func registerRouteHandlers(db *sql.DB, router routing.Router, parent context.Context) {
 	messageRepository := repositories.NewMessageRepository(db)
 
 	handlers.RegisterMessageHandlers(messageRepository, router, parent)
+	handlers.RegisterSlackWebhookHandler(messageRepository, router, parent)
 }
 
 func main() {
@@ -41,14 +42,12 @@ func main() {
 		}
 	}()
 
-	registerHandlers(db, router, ctx)
-
-
-	log.Println("Starting server on port 8000")
+	registerRouteHandlers(db, router, ctx)
 
 	if port, err := config.GetAppSettingInt("port"); err != nil {
 		log.Fatal(errors.Wrap(errors.WithStack(err), "Resolving app setting port"))
 	} else {
+		log.Printf("Starting server on port %v\n", port)
 		log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", port), router.AsHandler()))
 	}
 }

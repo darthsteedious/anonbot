@@ -25,5 +25,10 @@ func LoadYamlConfig(path string) (*Configuration, error) {
 		return nil, errors.Wrapf(errors.WithStack(err), "Error closing yaml file: %v", path)
 	}
 
+	//os.Getenv()
+	//for _, v := range config.EnvironmentKeys {
+	//	config
+	//}
+
 	return config, nil
 }

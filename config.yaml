@@ -2,3 +2,6 @@ connection_strings:
   postgres: 'postgres://appuser:p1n6P0nG$@localhost/anonbot?sslmode=disable'
 app_settings:
   port: 8000
+env:
+  - SLACK_ACCESS_TOKEN
+  - BOT_ACCESS_TOKEN

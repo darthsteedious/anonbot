@@ -8,6 +8,8 @@ import (
 type Configuration struct {
 	ConnectionStrings map[string]string `yaml:"connection_strings"`
 	AppSettings map[string]interface{} `yaml:"app_settings"`
+	EnvironmentKeys []string `yaml:"env"`
+	envMap map[string]string
 }
 
 func (c *Configuration) GetConnectionString(name string) (string, error) {
@@ -82,4 +84,13 @@ func (c *Configuration) GetAppSettingBool(name string) (bool, error) {
 	} else {
 		return b, nil
 	}
+}
+
+func (c *Configuration) GetEnvVariable(name string) (string, error) {
+	envVar := c.envMap[name]
+	if envVar == "" {
+		return "", errors.New(fmt.Sprintf("Env variable %v is not present\n", name))
+	}
+
+	return envVar, nil
 }
